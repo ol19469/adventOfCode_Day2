@@ -8,14 +8,18 @@ function processInput() {
     let numbers = line.trim().split(/\s+/).map(Number); // Convert space-separated values into numbers
 
     if (numbers.length < 2) return; // Ignore single-number lines
-
     let isSafe = true; // Assume the line is safe until proven otherwise
     let differences = []; // Store differences for debugging
-
+    let change = numbers[0] < numbers[1] ? "increase" : "decrease";
     for (let i = 0; i < numbers.length - 1; i++) {
+      let changed = numbers[i] < numbers[i + 1] ? "increase" : "decrease";
+
+      if (change !== changed) {
+        isSafe = false;
+        break;
+      }
       let diff = Math.abs(numbers[i] - numbers[i + 1]);
       differences.push(diff); // Store difference for debugging
-
       if (diff < 1 || diff > 3) {
         isSafe = false;
         break;
